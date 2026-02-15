@@ -1,0 +1,36 @@
+window {
+    background-color: #1d2951;
+}
+
+.shutdown-btn {
+    background-color: #e74c3c;
+    color: white;
+    border-radius: 10px;
+    font-size: 18px;
+
+}
+
+.reboot-btn {
+    background-color: #e16f1c;
+    color: white;
+    border-radius: 10px;
+    font-family: Lucida Console, monospace;
+    font-size: 18px;
+
+}
+
+.main-label {
+    font-weight: bold;
+    font-size: 18px;
+    font-family: Lucida Console, monospace;
+    color: white;
+
+}
+
+.time-entry {
+    min-width: 100px;
+    min-height: 30px;
+    font-size: 16px;
+    padding: 6px;
+    border-radius: 8px;
+}
