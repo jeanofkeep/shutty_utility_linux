@@ -43,10 +43,6 @@ static void activate(GtkApplication *app, gpointer user_data)
 
     button_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 20);
     gtk_widget_set_halign(button_box, GTK_ALIGN_CENTER);
-    gtk_box_append(GTK_BOX(box), button_box);
-
-
-
 
     /* Label */
     label = gtk_label_new("Enter the time (minutes)");
@@ -62,35 +58,56 @@ static void activate(GtkApplication *app, gpointer user_data)
     gtk_box_append(GTK_BOX(box), entry);
 
     /* shutdown button */
-    shutdown_btn = gtk_button_new_with_label("Shutdown");
+
+    shutdown_btn = gtk_button_new();
+
+    GtkWidget *shutdown_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 51);
+    GtkWidget *shutdown_icon = gtk_image_new_from_file("../icons/shutdown_button.jpg");
+
+    if (g_file_test("../icons/shutdown_button.jpg", G_FILE_TEST_EXISTS)) {
+        g_print("Файл найден(shutdown img)\n");
+    } else {
+        g_print("Файл НЕ найден\n");
+    }
+
+    gtk_image_set_pixel_size(GTK_IMAGE(shutdown_icon), 51); // размер картинки
+
+    gtk_box_append(GTK_BOX(shutdown_box), shutdown_icon);
+    gtk_button_set_child(GTK_BUTTON(shutdown_btn), shutdown_box);
     gtk_widget_add_css_class(shutdown_btn, "shutdown-btn");
-    gtk_widget_set_size_request(shutdown_btn, 60, 60);
-
-
     g_signal_connect(shutdown_btn, "clicked", G_CALLBACK(shutdown_system), NULL);
-
 
     /* CSS */
     GtkCssProvider *provider = gtk_css_provider_new();
 
-    //gtk_css_provider_load_from_data(provider,-1);
-
-
     /* reboot button */
-    reboot_btn = gtk_button_new_with_label("Reboot");
+    reboot_btn = gtk_button_new();
+
+    //gtk_widget_set_size_request(reboot_btn, 30, 30);
+
+    GtkWidget *reboot_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 51);
+    GtkWidget *reboot_icon = gtk_image_new_from_file("../icons/reboot_button.jpg");
+
+    if (g_file_test("../icons/reboot_button.jpg", G_FILE_TEST_EXISTS)) {
+        g_print("Файл найден(reboot img)\n");
+    } else {
+        g_print("Файл НЕ найден(reboot img)\n");
+    }
+
+    gtk_image_set_pixel_size(GTK_IMAGE(reboot_icon), 51); // размер картинки
+
+    gtk_box_append(GTK_BOX(reboot_box), reboot_icon);
+    gtk_button_set_child(GTK_BUTTON(reboot_btn), reboot_box);
     gtk_widget_add_css_class(reboot_btn, "reboot-btn");
-    gtk_widget_set_size_request(reboot_btn, 30, 30);
 
     g_signal_connect(reboot_btn, "clicked", G_CALLBACK(reboot_system), NULL);
 
-
     gtk_box_append(GTK_BOX(button_box), shutdown_btn);
     gtk_box_append(GTK_BOX(button_box), reboot_btn);
+    gtk_box_append(GTK_BOX(box), button_box);
 
     gtk_window_present(GTK_WINDOW(window));
 }
-
-
 
 int main (int argc, char **argv)
 {

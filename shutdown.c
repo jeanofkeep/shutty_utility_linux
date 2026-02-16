@@ -2,13 +2,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 void shutdown_system(int minutes) {
+    minutes = 5;
     char cmd[64];
     snprintf(cmd, sizeof(cmd), "shutdown -h +%d", minutes); // Linux
     system(cmd);
 }
 
 void reboot_system(int minutes) {
+    minutes = 10;
     char cmd[64];
     snprintf(cmd, sizeof(cmd), "shutdown -r +%d", minutes); // Linux
     system(cmd);

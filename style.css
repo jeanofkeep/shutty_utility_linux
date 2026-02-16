@@ -1,30 +1,11 @@
 window {
     background-color: #1d2951;
 }
-
-.shutdown-btn {
-    background-color: #e74c3c;
-    color: white;
-    border-radius: 10px;
-    font-size: 18px;
-
-}
-
-.reboot-btn {
-    background-color: #e16f1c;
-    color: white;
-    border-radius: 10px;
-    font-family: Lucida Console, monospace;
-    font-size: 18px;
-
-}
-
 .main-label {
     font-weight: bold;
     font-size: 18px;
     font-family: Lucida Console, monospace;
     color: white;
-
 }
 
 .time-entry {
@@ -34,3 +15,26 @@ window {
     padding: 6px;
     border-radius: 8px;
 }
+
+.shutdown-btn {
+    background: transparent;
+    /*border: 1px solid red;
+    border-radius: 1px;
+     */
+    padding: 0;
+}
+
+.reboot-btn {
+    /*
+    background-color: #e16f1c;
+    color: white;
+    border-radius: 10px;
+    font-family: Lucida Console, monospace;
+    font-size: 18px;
+*/
+    background: transparent;
+    padding: 0;
+}
+
+
+
