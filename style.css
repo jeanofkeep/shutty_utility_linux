@@ -36,5 +36,10 @@ window {
     padding: 0;
 }
 
+.undo-btn {
+    background: transparent;
+    padding: 0;
+}
+
 
 

@@ -21,14 +21,26 @@ static void load_css(void)
     g_object_unref(provider);
 }
 
-static void activate(GtkApplication *app, gpointer user_data)
+void on_shutdown_clicked(GtkWidget *widget, gpointer data)
 {
+    GtkWidget *entry = GTK_WIDGET(data);
+
+    const char *text =
+        gtk_editable_get_text(GTK_EDITABLE(entry));
+
+    int minutes = atoi(text);
+
+    shutdown_system(minutes);
+}
+
+static void activate(GtkApplication *app, gpointer user_data) {
     load_css();
 
     GtkWidget *window;
     GtkWidget *box;
     GtkWidget *shutdown_btn;
     GtkWidget *reboot_btn;
+    GtkWidget *undo_btn;
     GtkWidget *button_box;
     GtkWidget *label;
     GtkWidget *entry;
@@ -55,6 +67,7 @@ static void activate(GtkApplication *app, gpointer user_data)
     gtk_entry_set_placeholder_text(GTK_ENTRY(entry), "Minutes");
     //gtk_widget_set_size_request(entry, 100, 30);
 
+
     gtk_box_append(GTK_BOX(box), entry);
 
     /* shutdown button */
@@ -75,10 +88,11 @@ static void activate(GtkApplication *app, gpointer user_data)
     gtk_box_append(GTK_BOX(shutdown_box), shutdown_icon);
     gtk_button_set_child(GTK_BUTTON(shutdown_btn), shutdown_box);
     gtk_widget_add_css_class(shutdown_btn, "shutdown-btn");
-    g_signal_connect(shutdown_btn, "clicked", G_CALLBACK(shutdown_system), NULL);
+    //g_signal_connect(shutdown_btn, "clicked", G_CALLBACK(shutdown_system), entry);
 
+    g_signal_connect(shutdown_btn, "clicked", G_CALLBACK(on_shutdown_clicked), entry);
     /* CSS */
-    GtkCssProvider *provider = gtk_css_provider_new();
+
 
     /* reboot button */
     reboot_btn = gtk_button_new();
@@ -100,13 +114,49 @@ static void activate(GtkApplication *app, gpointer user_data)
     gtk_button_set_child(GTK_BUTTON(reboot_btn), reboot_box);
     gtk_widget_add_css_class(reboot_btn, "reboot-btn");
 
-    g_signal_connect(reboot_btn, "clicked", G_CALLBACK(reboot_system), NULL);
+    g_signal_connect(reboot_btn, "clicked", G_CALLBACK(on_shutdown_clicked), entry);
+
+    //g_signal_connect(reboot_btn, "clicked", G_CALLBACK(reboot_system), entry);
+
+
+
+
+    /*undo button*/
+
+    undo_btn = gtk_button_new();
+
+    //gtk_widget_set_size_request(reboot_btn, 30, 30);
+
+    GtkWidget *undo_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 51);
+    GtkWidget *undo_icon = gtk_image_new_from_file("../icons/undo_button.jpg");
+
+    if (g_file_test("../icons/undo_button.jpg", G_FILE_TEST_EXISTS)) {
+        g_print("Файл найден(undo img)\n");
+    } else {
+        g_print("Файл НЕ найден(undo img)\n");
+    }
+    gtk_image_set_pixel_size(GTK_IMAGE(reboot_icon), 51);
+    gtk_box_append(GTK_BOX(undo_box), undo_icon);
+    gtk_button_set_child(GTK_BUTTON(undo_btn), undo_box);
+    gtk_widget_add_css_class(undo_btn, "undo-btn");
+
+
 
     gtk_box_append(GTK_BOX(button_box), shutdown_btn);
     gtk_box_append(GTK_BOX(button_box), reboot_btn);
+    gtk_box_append(GTK_BOX(button_box), undo_btn);
+
     gtk_box_append(GTK_BOX(box), button_box);
 
+    GtkCssProvider *provider = gtk_css_provider_new();
+
     gtk_window_present(GTK_WINDOW(window));
+
+    void on_undo_clicked(GtkWidget *widget, gpointer data)
+    {
+        undo_operation();
+    }
+    g_signal_connect(undo_btn, "clicked", G_CALLBACK(on_undo_clicked), entry);
 }
 
 int main (int argc, char **argv)
